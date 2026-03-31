@@ -1,37 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AvoirPharma
 
-## Getting Started
+Application Next.js (App Router) + Prisma + PostgreSQL pour gérer les **avoirs** d’une pharmacie.
 
-First, run the development server:
+## Fonctionnalités
+
+1. **Vérification d’avoir (code OU QR)**  
+   - Champ : entrer le **code** (ou scanner le **QR**)
+   - Résultat clair :
+     - ✅ **Avoir valide**
+     - ❌ **Avoir expiré**
+     - ❌ **Déjà utilisé**
+   - Bouton (si valide) : **Marquer comme utilisé**
+
+2. **Ticket professionnel (PDF petit format)**
+   - Ticket type reçu (format **80x180 mm**) prêt à imprimer
+   - Contenu :
+     - Nom pharmacie
+     - Adresse / téléphone
+     - Nom client
+     - Montant
+     - Code unique
+     - Date + heure
+     - Expiration
+     - Mention **“Valable 3 jours”**
+     - **QR code** pointant vers la page de vérification
+
+3. **QR code (TRÈS IMPORTANT)**
+   - Scannez → ouverture directe de l’avoir à vérifier
+   - Moins d’erreurs et plus rapide au comptoir
+
+4. **Dashboard simple**
+   - Total avoirs
+   - Avoirs actifs
+   - Expirés
+   - Utilisés
+
+5. **Recherche rapide**
+   - Recherche instantanée sur :
+     - code
+     - nom
+     - téléphone
+
+## Authentification (admin unique)
+
+Accès réservé à **un seul compte ADMIN** :
+- Login : `email` + `mot de passe`
+- Seuls les utilisateurs avec `role = ADMIN` peuvent accéder aux pages protégées.
+- Route de connexion : `/connexion`
+
+## Pages & routes
+
+- `/connexion` : connexion admin
+- `/` : Accueil (interface pro)
+- `/avoirs` : liste + recherche + actions (modifier, supprimer, ticket PDF)
+- `/avoirs/nouveau` : création (téléphone +221, date, ticket PDF auto)
+- `/avoirs/[id]/modifier` : édition
+- `/verifier` : vérification code/QR + marquer utilisé
+- `/dashboard` : stats
+
+## Prérequis
+
+- Node.js
+- PostgreSQL en local
+
+## Installation & configuration
+
+1. Installer les dépendances
+
+```bash
+npm install
+```
+
+2. Configurer `.env`
+
+Copier le modèle :
+
+```bash
+copy .env.example .env
+```
+
+Puis renseigner :
+
+- `DATABASE_URL`
+- `AUTH_SECRET` (min. 32 caractères)
+- `ADMIN_EMAIL`
+- `ADMIN_PASSWORD` (min. 8 caractères)
+
+3. Mettre la base à jour + créer l’admin
+
+```bash
+npm run db:setup
+```
+
+Si Windows bloque parfois sur Prisma (verrou Windows EPERM), utiliser :
+
+```bash
+npm run db:generate:force
+```
+
+## Lancer l’application
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Puis ouvrir :
+- `http://localhost:3000/connexion`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts utiles
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` : démarrage dev
+- `npm run build` : build prod
+- `npm run db:setup` : migrations + generate + seed admin
+- `npm run db:seed` : refaire seulement le seed admin
 
-## Learn More
+## Notes d’impression
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# avoir-pharma
+Le ticket PDF est généré en **80x180 mm**. Pour une imprimante thermique, sélectionner le format reçu/thermique correspondant dans la boîte d’impression du navigateur.
