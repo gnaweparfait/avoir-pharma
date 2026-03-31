@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Compte administrateur (acces unique a l'application)
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         String   @default("ADMIN")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Avoir {
+  id             Int      @id @default(autoincrement())
+  code           String   @unique
+  nom            String
+  prenom         String
+  telephone      String   @default("")
+  montant        Float
+  dateCreation   DateTime @default(now())
+  dateExpiration DateTime
+  utilise        Boolean  @default(false)
+}
