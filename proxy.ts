@@ -11,11 +11,9 @@ function secretKey(): Uint8Array {
   return new TextEncoder().encode(s);
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const isPublic =
-    pathname === "/connexion" || pathname.startsWith("/api/auth/");
-
+  const isPublic = pathname === "/connexion" || pathname.startsWith("/api/auth/");
   const token = request.cookies.get(SESSION_COOKIE)?.value;
 
   if (isPublic) {
@@ -24,7 +22,7 @@ export async function middleware(request: NextRequest) {
         await jwtVerify(token, secretKey());
         return NextResponse.redirect(new URL("/", request.url));
       } catch {
-        // jeton invalide : afficher la page de connexion
+        // token invalide : laisser afficher la page connexion
       }
     }
     return NextResponse.next();
@@ -47,3 +45,4 @@ export const config = {
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };
+

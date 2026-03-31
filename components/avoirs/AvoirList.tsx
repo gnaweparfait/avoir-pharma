@@ -190,33 +190,41 @@ export function AvoirList() {
     <div className="space-y-5">
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <div className="rounded-xl border border-zinc-200/80 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-          <p className="text-xs uppercase tracking-wider text-zinc-500">Actifs</p>
-          <p className="mt-1 text-xl font-semibold text-emerald-700 dark:text-emerald-300">{actifs}</p>
-        </div>
-        <div className="rounded-xl border border-zinc-200/80 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-          <p className="text-xs uppercase tracking-wider text-zinc-500">Utilisés</p>
-          <p className="mt-1 text-xl font-semibold text-zinc-700 dark:text-zinc-300">{utilises}</p>
-        </div>
-        <div className="rounded-xl border border-zinc-200/80 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-          <p className="text-xs uppercase tracking-wider text-zinc-500">Expirés</p>
-          <p className="mt-1 text-xl font-semibold text-amber-700 dark:text-amber-300">{expires}</p>
-        </div>
-        <div className="rounded-xl border border-zinc-200/80 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-          <p className="text-xs uppercase tracking-wider text-zinc-500">Montant actif</p>
-          <p className="mt-1 text-sm font-semibold tabular-nums text-zinc-800 dark:text-zinc-200">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Montant actif</p>
+          <p className="mt-2 text-lg font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
             {montantTotalActif.toLocaleString("fr-FR")} FCFA
           </p>
         </div>
+        <div className="rounded-xl border border-zinc-200/80 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Actifs</p>
+          <p className="mt-2 text-xl font-semibold text-emerald-700 dark:text-emerald-300">{actifs}</p>
+        </div>
+        <div className="rounded-xl border border-zinc-200/80 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Utilisés</p>
+          <p className="mt-2 text-xl font-semibold text-zinc-700 dark:text-zinc-300">{utilises}</p>
+        </div>
+        <div className="rounded-xl border border-zinc-200/80 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Expirés</p>
+          <p className="mt-2 text-xl font-semibold text-amber-700 dark:text-amber-300">{expires}</p>
+        </div>
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="pt-2" />
+
+      <div className="flex flex-col gap-3 border-t border-zinc-100 pt-4 sm:flex-row sm:items-center sm:justify-between dark:border-zinc-800">
         <div className="relative flex-1">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Rechercher : code, nom, téléphone"
-            className="input-pro pr-10"
+            className="input-pro pl-9 pr-16"
           />
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 dark:text-zinc-500">
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="6" />
+              <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            </svg>
+          </span>
           {query.trim().length > 0 && (
             <button
               type="button"
@@ -234,7 +242,7 @@ export function AvoirList() {
 
       <div className="overflow-hidden rounded-2xl border border-zinc-200/90 bg-white shadow-lg shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-black/40">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] text-left text-sm">
+        <table className="w-full min-w-[800px] text-left text-sm">
           <thead className="border-b border-zinc-200 bg-gradient-to-b from-zinc-50 to-zinc-50/50 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:border-zinc-800 dark:from-zinc-900 dark:to-zinc-900/80 dark:text-zinc-500">
             <tr>
               <th className="px-5 py-4">Code</th>
@@ -249,10 +257,7 @@ export function AvoirList() {
           <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
             {filteredAvoirs.length === 0 ? (
               <tr>
-                <td
-                  colSpan={7}
-                  className="px-5 py-10 text-center text-sm text-zinc-500 dark:text-zinc-400"
-                >
+                <td colSpan={7} className="px-5 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
                   Aucun résultat pour votre recherche.
                 </td>
               </tr>
@@ -264,23 +269,23 @@ export function AvoirList() {
                   key={a.id}
                   className="transition hover:bg-emerald-50/40 dark:hover:bg-emerald-950/20"
                 >
-                  <td className="px-5 py-4 font-mono text-xs font-medium text-zinc-800 dark:text-zinc-200">
+                  <td className="px-5 py-3.5 font-mono text-xs font-medium text-zinc-800 dark:text-zinc-200">
                     {a.code}
                   </td>
-                  <td className="px-5 py-4 font-medium text-zinc-900 dark:text-zinc-100">
+                  <td className="px-5 py-3.5 font-semibold text-zinc-900 dark:text-zinc-100">
                     {a.prenom} {a.nom}
                   </td>
-                  <td className="px-5 py-4 font-mono text-xs text-zinc-700 dark:text-zinc-300">
+                  <td className="px-5 py-3.5 font-mono text-xs text-zinc-500 dark:text-zinc-400">
                     {formatSenegalDisplay(a.telephone)}
                   </td>
-                  <td className="px-5 py-4 text-right text-sm tabular-nums text-zinc-800 dark:text-zinc-200">
+                  <td className="px-5 py-3.5 text-right text-sm tabular-nums text-zinc-800 dark:text-zinc-200">
                     {a.montant.toLocaleString("fr-FR")}{" "}
                     <span className="text-zinc-500 dark:text-zinc-500">FCFA</span>
                   </td>
-                  <td className="px-5 py-4 text-zinc-600 dark:text-zinc-400">
+                  <td className="px-5 py-3.5 text-zinc-600 dark:text-zinc-400">
                     {formatDate(a.dateExpiration)}
                   </td>
-                  <td className="px-5 py-4">
+                  <td className="px-5 py-3.5">
                     {a.utilise ? (
                       <span className="inline-flex items-center rounded-full bg-zinc-200/90 px-2.5 py-1 text-xs font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
                         Utilisé
@@ -295,14 +300,25 @@ export function AvoirList() {
                       </span>
                     )}
                   </td>
-                  <td className="px-5 py-4">
+                  <td className="px-5 py-3.5">
                     <div className="flex justify-end gap-2">
                       <button
                         type="button"
                         onClick={() => void handleDownloadPdf(a)}
                         disabled={downloadingId === a.id}
-                        className="inline-flex items-center rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-100 disabled:opacity-50 dark:border-emerald-900/70 dark:bg-emerald-950/30 dark:text-emerald-300 dark:hover:bg-emerald-950/50"
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-100 disabled:opacity-50 dark:border-emerald-900/70 dark:bg-emerald-950/30 dark:text-emerald-300 dark:hover:bg-emerald-950/50"
                       >
+                        <svg
+                          className="h-3.5 w-3.5"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path d="M6 9V2h12v7" />
+                          <path d="M6 18v-3h12v3" />
+                          <path d="M6 14h12" />
+                        </svg>
                         {downloadingId === a.id ? "PDF…" : "Ticket PDF"}
                       </button>
                       <Link
